@@ -41,6 +41,6 @@ __Note that IT IS IMPORTANT THAT THE SLOT NAME IN THE NITROKEY IS__ `LUKS` __OTH
 
 * If the nitrokey is not connected during the boot, the PIN is locked, or something else blocks you for using the nitrokey, you will get the default luks password prompt which you can use to unlock the disk.
 
-* If you have multiple slots names as `LUKS` in your nitrokey, the first one will be used.
+* If you have multiple slots named as `LUKS` in your nitrokey, the first one will be used.
 
 * This repo also contains a copy of `libnitrokey` which can be found [here.](https://github.com/Nitrokey/libnitrokey)
