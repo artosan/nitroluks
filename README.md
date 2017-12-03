@@ -15,7 +15,7 @@ Please take backups of any important files and make sure that you have backup in
 Before the installation, you must do some preparation steps.
 
 ### Preparation
-* First, add new password into your nitrokey, the easiest way is to use `nitro-app`. Go to password safe and add a new slot, name the slot as `LUKS` and generate the password for the slot and save it.
+* First, add a new password into your nitrokey, the easiest way is to use `nitro-app`. Go to password safe and add a new slot, name the slot as `LUKS` and generate the password for the slot and save it.
 
 * Next, add the same password to your luks disk, i.e. `# cryptsetup luksAddKey /dev/<device> ` and make sure you use the same key as you stored into your nitrokeys LUKS slot.
 
@@ -40,5 +40,7 @@ __Note that IT IS IMPORTANT THAT THE SLOT NAME IN THE NITROKEY IS__ `LUKS` __OTH
 ## Additional information
 
 * If the nitrokey is not connected during the boot, the PIN is locked, or something else blocks you for using the nitrokey, you will get the default luks password prompt which you can use to unlock the disk.
+
+* If you have multiple slots names as `LUKS` in your nitrokey, the first one will be used.
 
 * This repo also contains a copy of `libnitrokey` which can be found [here.](https://github.com/Nitrokey/libnitrokey)
