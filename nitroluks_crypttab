@@ -1,0 +1,5 @@
+# This is an example crypttab file for nitrolux
+# Simply add the 'keyscript=/usr/bin/keyscript.sh' to your luks entry and you are good to go
+# Below is an example how the entry might look
+
+<device>_crypt UUID=<DISK-UUID> none luks keyscript=/usr/bin/keyscript.sh

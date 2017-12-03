@@ -1,0 +1,13 @@
+Source: nitroluks
+Section: unknown
+Priority: optional
+Maintainer: Arto Sänkiaho <artosank@gmail.com>
+Build-Depends: debhelper (>= 9), libhidapi-dev, libusb-dev, cmake
+Standards-Version: 3.9.8
+
+Package: nitroluks
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, initramfs-tools
+Description: Unlock LUKS disk by Nitrokey on boot
+ using the password vault which is built in Nitrokey Pro
+ and Nitrokey Storage
