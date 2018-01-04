@@ -4,9 +4,6 @@ echo "*** Trying to unlock the disk $CRYPTTAB_SOURCE ($CRYPTTAB_NAME) by nitroke
 # set exit status to fail so we fall back to default luks prompt if execution of nitro_luks does not work for some reason
 exit_status=1
 
-# disable echo
-stty -echo
-
 # sleep to wait for the usb device to be available
 # TODO is there better way to do this?
 sleep 5

@@ -3,12 +3,19 @@
 #include <string.h>
 #include <ctype.h>
 #include <inttypes.h>
+#include <termios.h>
+#include <unistd.h>
 #include "include/NK_C_API.h"
+
 
 #define STATUS_OK 0
 #define WRONG_PASSWORD 4
+
 #define SLOT_COUNT 16
 #define ERROR 1
+#define MAX_PIN_LENGTH 20
+
+struct termios saved_attributes;
 
 int error(char const *msg)
 {
@@ -16,10 +23,25 @@ int error(char const *msg)
     return ERROR;
 }
 
+void disable_echo(void)
+{
+  struct termios tattr;
+  tcgetattr(STDIN_FILENO, &saved_attributes);
+
+  tcgetattr (STDIN_FILENO, &tattr);
+  tattr.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
+}
+
+void reset_input_mode (void)
+{
+  tcsetattr(STDIN_FILENO, TCSANOW, &saved_attributes);
+}
+
 int main(int argc, char const *argv[])
 {
     const char* LUKS_password;
-    char password[26];
+    char password[MAX_PIN_LENGTH + 1];
     uint8_t* slots;
     int login_status;
     int auth_status;
@@ -52,19 +74,22 @@ int main(int argc, char const *argv[])
             if (retry_count == 0)
                 return error("*** User PIN locked.");
 
-            fprintf(stderr, "*** %d PIN retries left. Enter N to quit or Y to continue.\n", retry_count);
+            fprintf(stderr, "*** %d PIN retries left. Type N to quit or Y to continue and pres enter.\n", retry_count);
             fgets(ask, 2, stdin);
+            ask[strcspn(ask, "\n")] = 0;
             if (strcmp(ask, "N") == 0)
                 return error("*** Exiting...");
             else
                 // clear the input buffer
-                while ( getchar() != '\n' );
+                while (getchar() != '\n');
 
         }while ((strcmp(ask, "Y") != 0));
 
         // Ask the password and unlock the nitrokey
         fprintf(stderr, "Enter the (user) PIN:\n");
-        fgets(password, 26, stdin);
+        disable_echo();
+        fgets(password, sizeof(password), stdin);
+        reset_input_mode();
         // remove the trailing newline
         password[strcspn(password, "\n")] = 0;
         auth_status = NK_user_authenticate(password, password);
