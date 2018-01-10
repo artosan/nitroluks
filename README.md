@@ -10,14 +10,18 @@ __YOU CAN MAKE YOUR DEBIAN UNBOOTABLE IF YOU MESS THE crypttab and initramfs SO 
 
 Please take backups of any important files and make sure that you have backup initramfs which you can use as a fallback if the installation messes your boot up for some reason.
 
+This package could potentially work with Ubuntu also, but I have not tested it. 
+
+Moreover, the directory structure is not compliant with Debian project guidelines. I will be improving the package structure, code quality and make sure that this also works with Ubuntu shortly so stay tuned. 
+
 ## Installation
 
 Before the installation, you must do some preparation steps.
 
 ### Preparation
-* First, add a new password into your nitrokey, the easiest way is to use `nitro-app`. Go to password safe and add a new slot, name the slot as `LUKS` and generate the password for the slot and save it.
+* First, add a new password to your nitrokey, the easiest way is to use `nitro-app`. Go to password safe and add a new slot, name the slot as `LUKS` and generate the password for the slot and save it.
 
-* Next, add the same password to your luks disk, i.e. `# cryptsetup luksAddKey /dev/<device> ` and make sure you use the same key as you stored into your nitrokeys LUKS slot.
+* Next, add the same password to your LUKS disk, i.e. `# cryptsetup luksAddKey /dev/<device> ` and make sure you use the same key as you stored into your nitrokeys LUKS slot.
 
 __Note that IT IS IMPORTANT THAT THE SLOT NAME IN THE NITROKEY IS__ `LUKS` __OTHERWISE YOU CAN NOT UNLOCK YOUR DISK BY NITROKEY!__
 
