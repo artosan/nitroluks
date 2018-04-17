@@ -74,7 +74,7 @@ int main(int argc, char const *argv[])
             if (retry_count == 0)
                 return error("*** User PIN locked.");
 
-            fprintf(stderr, "*** %d PIN retries left. Type N to quit or Y to continue and pres enter.\n", retry_count);
+            fprintf(stderr, "*** %d PIN retries left. Type N to quit or Y to continue and press enter.\n", retry_count);
             fgets(ask, 2, stdin);
             ask[strcspn(ask, "\n")] = 0;
             if (strcmp(ask, "N") == 0)
