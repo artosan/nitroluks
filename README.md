@@ -31,6 +31,8 @@ __Note that IT IS IMPORTANT THAT THE SLOT NAME IN THE NITROKEY IS__ `LUKS` __OTH
 
 
 ### Install
+* Make sure you have `devscripts`, `libhidapi-dev` and `cmake` installed.
+
 * Clone this repo and run `make debianize`.
 
 * After this step, you will find `nitroluks_0.1-1_arch.deb` the package under `DEBUILD` directory.
