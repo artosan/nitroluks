@@ -16,4 +16,26 @@ esac
 . "${CONFDIR}/initramfs.conf"
 . /usr/share/initramfs-tools/hook-functions
 
+# Deploy nitro_luks executable
 copy_exec /usr/bin/nitro_luks /bin
+
+# Deploy terminfo (required for pinentry-curses).
+mkdir -p "${DESTDIR}/etc/terminfo/l/"
+cp -a /lib/terminfo/l/linux "${DESTDIR}/etc/terminfo/l/linux"
+
+# Deploy GnuPG binaries and pinentry-curses.
+copy_exec /usr/bin/gpg2
+copy_exec /usr/bin/gpg-agent
+copy_exec /usr/bin/pinentry-curses
+copy_exec /usr/lib/gnupg/scdaemon
+
+KEYFILE_PATH="/path/to/encryptred/luks/password/luks.key.gpg"
+GPG_CONFIG_DIR="/home/user/.gnupg"
+
+
+# Deploy the needed gpg files
+mkdir -p ${DESTDIR}/etc/gpg_luks
+# This is the encrypted file which contains the LUKS password
+cp  $KEYFILE_PATH ${DESTDIR}/etc/gpg_luks
+# We need to copy the .gnupg directory so gpg has the necessary configurations
+cp -r $GPG_CONFIG_DIR $DESTDIR/etc/gpg_luks
