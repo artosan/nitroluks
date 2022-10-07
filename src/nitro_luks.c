@@ -17,6 +17,11 @@
 
 struct termios saved_attributes;
 
+// Make the function pointer volatile to ensure that the compiler
+// actually calls it and doesn't optimize it.
+typedef void *(*memset_t)(void *, int, size_t);
+static volatile memset_t memset_func = memset;
+
 static int error(char const *msg)
 {
     fprintf(stderr, "%s \n*** Falling back to default LUKS password entry.\n", msg);
@@ -96,16 +101,19 @@ int main(int argc, char const *argv[])
 
         // handle the login results
         if(auth_status == WRONG_PASSWORD) {
+            memset_func(password, 0, sizeof(password));
             fprintf(stderr, "*** Wrong PIN!\n");
         }else if (auth_status == STATUS_OK) {
             fprintf(stderr, "*** PIN entry successful.\n");
         }else {
+            memset_func(password, 0, sizeof(password));
             return error("*** Error in PIN entry.\n");
         }
     } while(auth_status == WRONG_PASSWORD);
 
     //  Find a slot from the nitrokey where we fetch the LUKS key from.
     password_safe_status = NK_enable_password_safe(password);
+    memset_func(password, 0, sizeof(password));
     if (password_safe_status != STATUS_OK)
         return error("*** Error while accessing password safe.\n");
 
