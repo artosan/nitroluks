@@ -17,13 +17,13 @@
 
 struct termios saved_attributes;
 
-int error(char const *msg)
+static int error(char const *msg)
 {
     fprintf(stderr, "%s \n*** Falling back to default LUKS password entry.\n", msg);
     return ERROR;
 }
 
-void disable_echo(void)
+static void disable_echo(void)
 {
   struct termios tattr;
   tcgetattr(STDIN_FILENO, &saved_attributes);
@@ -33,7 +33,7 @@ void disable_echo(void)
   tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
 }
 
-void reset_input_mode (void)
+static void reset_input_mode (void)
 {
   tcsetattr(STDIN_FILENO, TCSANOW, &saved_attributes);
 }
